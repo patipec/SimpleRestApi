@@ -48,7 +48,7 @@ namespace SimpleRestApi.Controllers
                 return NotFound();
             }
 
-            _customerService?.DeleteCustomer(id);
+            _customerService.DeleteCustomer(id);
             _logger.LogInformation("deleted");
             return NoContent();
         }
