@@ -6,11 +6,15 @@ namespace SimpleRestApi.Service
     public class CustomerService : ICustomerService
     {
 
-        List<Customer> _customers = new List<Customer>();
+        private readonly List<Customer> _customers = new List<Customer>();
+
+
+
+
         readonly ILogger<CustomerService> _logger;
 
         public CustomerService(ILogger<CustomerService> logger)
-        { _logger = logger; }
+        {   _logger = logger; }
 
 
         public void CreateNewCustomer(Customer customer)
@@ -31,13 +35,16 @@ namespace SimpleRestApi.Service
             _logger.LogError("No customer");
         }
 
-        public List<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers()
         {
             // _logger.LogInformation("showing list of customers");
 
             return _customers;
         }
 
-        public Customer GetCustomerById(int id) => _customers.Find(x => x.Id == id);
+        public Customer GetCustomerById(int id)
+        {
+            return _customers.FirstOrDefault(x => x.Id == id);
+        }
     }
 }

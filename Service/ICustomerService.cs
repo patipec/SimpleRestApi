@@ -6,7 +6,7 @@ namespace SimpleRestApi.Service
     {
         public void CreateNewCustomer(Customer customer);
 
-        public List<Customer> GetAllCustomers();
+        public IEnumerable<Customer> GetAllCustomers();
 
         public void DeleteCustomer(int id);
         public Customer GetCustomerById(int id);
