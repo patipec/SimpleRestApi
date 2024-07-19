@@ -1,27 +1,23 @@
-﻿
-using SimpleRestApi.Entities;
+﻿using SimpleRestApi.Entities;
 
 namespace SimpleRestApi.Service
 {
     public class CustomerService : ICustomerService
     {
-
-        private readonly List<Customer> _customers = new List<Customer>();
-
-
-
+        readonly List<Customer> _customers = new List<Customer>
+        {
+            new() {Id=1, Firstname="Patr", Surname = "Pecz" },
+            new() {Id=2, Firstname="Anna", Surname = "Brock" },
+            new() {Id=3, Firstname="Adam", Surname = "Alan" },
+            new() {Id=4, Firstname="Lola", Surname = "Noir" }
+        };
 
         readonly ILogger<CustomerService> _logger;
 
-        public CustomerService(ILogger<CustomerService> logger)
-        {   _logger = logger; }
 
+        public CustomerService(ILogger<CustomerService> logger) => _logger = logger;
 
-        public void CreateNewCustomer(Customer customer)
-        {
-            _customers.Add(customer);
-            _logger.LogInformation("Customer added");
-        }
+        public void CreateNewCustomer(Customer customer) => _customers.Add(customer);
 
         public void DeleteCustomer(int id)
         {
@@ -31,20 +27,10 @@ namespace SimpleRestApi.Service
             {
                 _customers.Remove(searched);
             }
-
-            _logger.LogError("No customer");
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
-        {
-            // _logger.LogInformation("showing list of customers");
+        public IEnumerable<Customer> GetAllCustomers() => _customers;
 
-            return _customers;
-        }
-
-        public Customer GetCustomerById(int id)
-        {
-            return _customers.FirstOrDefault(x => x.Id == id);
-        }
+        public Customer GetCustomerById(int id) => _customers.FirstOrDefault(x => x.Id == id);
     }
 }

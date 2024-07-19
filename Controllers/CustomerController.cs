@@ -10,18 +10,21 @@ namespace SimpleRestApi.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
+        readonly ICustomerService _customerService;
+        readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, ILogger<CustomerController> logger)
         {
-            _customerService = customerService;
+            this._customerService = customerService;
+            this._logger = logger;
         }
-
+        
 
         // GET: api/<CustomerController>
         [HttpGet]
         public ActionResult<IEnumerable<Customer>> GetAll()
         {
+            _logger.LogInformation("Showing list of customers");
             return Ok(_customerService.GetAllCustomers());
         }
 
@@ -30,8 +33,8 @@ namespace SimpleRestApi.Controllers
         public ActionResult<Customer> Post([FromBody] Customer customer)
         {
             _customerService.CreateNewCustomer(customer);
+            _logger.LogInformation("Created new customer");
             return CreatedAtAction(nameof(GetCustomerById), new { id = customer.Id }, customer);
-
         }
 
         // DELETE api/<CustomerController>/5
@@ -46,6 +49,7 @@ namespace SimpleRestApi.Controllers
             }
 
             _customerService?.DeleteCustomer(id);
+            _logger.LogInformation("deleted");
             return NoContent();
         }
 
